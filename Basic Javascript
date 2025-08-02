@@ -1,0 +1,172 @@
+// Initialize Performance Bar Chart
+const ctx = document.getElementById('performanceChart').getContext('2d');
+const performanceChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Player A', 'Player B', 'Player C', 'Player D'],
+    datasets: [{
+      label: 'Points Per Game',
+      data: [25, 20, 15, 22],
+      backgroundColor: [
+        'rgba(255, 0, 0, 0.7)', // Red
+        'rgba(0, 0, 0, 0.7)',   // Black
+        'rgba(255, 255, 255, 0.7)', // White
+        'rgba(255, 0, 0, 0.7)'
+      ],
+      borderColor: [
+        'rgba(255, 0, 0, 1)',
+        'rgba(0, 0, 0, 1)',
+        'rgba(255, 255, 255, 1)',
+        'rgba(255, 0, 0, 1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Player Performance Comparison',
+        color: '#fff'
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { color: '#fff' },
+        grid: { color: 'rgba(255,255,255,0.1)' }
+      },
+      x: {
+        ticks: { color: '#fff' },
+        grid: { color: 'rgba(255,255,255,0.1)' }
+      }
+    }
+  }
+});
+
+// Initialize Radar Chart
+const ctxRadar = document.getElementById('playerRadar').getContext('2d');
+const playerRadarChart = new Chart(ctxRadar, {
+  type: 'radar',
+  data: {
+    labels: ['Points', 'Rebounds', 'Assists', 'Steals', 'Blocks'],
+    datasets: [
+      {
+        label: 'Player 1',
+        data: [20, 7, 5, 2, 1],
+        fill: true,
+        backgroundColor: 'rgba(255, 0, 0, 0.2)',
+        borderColor: 'rgba(255, 0, 0, 1)',
+        pointBackgroundColor: 'rgba(255, 0, 0, 1)'
+      },
+      {
+        label: 'Player 2',
+        data: [15, 8, 7, 3, 2],
+        fill: true,
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        borderColor: 'rgba(0, 0, 0, 1)',
+        pointBackgroundColor: 'rgba(0, 0, 0, 1)'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' }
+    }
+  }
+});
+
+// Populate Leaderboard
+const leaderboardData = [
+  { name: 'Player A', ppg: 25 },
+  { name: 'Player D', ppg: 22 },
+  { name: 'Player B', ppg: 20 },
+  { name: 'Player C', ppg: 15 }
+];
+
+const leaderboardList = document.getElementById('leaderboardList');
+
+function updateLeaderboard() {
+  leaderboardList.innerHTML = '';
+  leaderboardData
+    .slice()
+    .sort((a, b) => b.ppg - a.ppg)
+    .forEach(player => {
+      const li = document.createElement('li');
+      li.textContent = `${player.name} - ${player.ppg} PPG`;
+      leaderboardList.appendChild(li);
+    });
+}
+
+updateLeaderboard();
+
+// Player selection event listeners
+const playerSelect1 = document.getElementById('player1');
+const playerSelect2 = document.getElementById('player2');
+
+function updatePerformanceChart() {
+  const val1 = parseInt(playerSelect1.value);
+  const val2 = parseInt(playerSelect2.value);
+  performanceChart.data.datasets[0].data = [val1, val2];
+  performanceChart.update();
+
+  // Also update radar chart data based on selection
+  // For demo, just randomly assign data
+  playerRadarChart.data.datasets[0].data = [
+    val1, Math.floor(Math.random() * 10 + 5),
+    Math.floor(Math.random() * 5 + 2),
+    Math.floor(Math.random() * 3),
+    Math.floor(Math.random() * 2)
+  ];
+  playerRadarChart.data.datasets[1].data = [
+    val2, Math.floor(Math.random() * 10 + 5),
+    Math.floor(Math.random() * 5 + 2),
+    Math.floor(Math.random() * 3),
+    Math.floor(Math.random() * 2)
+  ];
+  playerRadarChart.update();
+}
+
+playerSelect1.addEventListener('change', updatePerformanceChart);
+playerSelect2.addEventListener('change', updatePerformanceChart);
+
+// Simulate real-time data updates every 10 seconds
+setInterval(() => {
+  const randomData = [
+    Math.floor(Math.random() * 30),
+    Math.floor(Math.random() * 30),
+    Math.floor(Math.random() * 30),
+    Math.floor(Math.random() * 30)
+  ];
+  performanceChart.data.datasets[0].data = randomData;
+  performanceChart.update();
+
+  // Also update radar chart with random data
+  for (let i = 0; i < 2; i++) {
+    playerRadarChart.data.datasets[i].data = [
+      Math.floor(Math.random() * 30),
+      Math.floor(Math.random() * 10 + 5),
+      Math.floor(Math.random() * 5 + 2),
+      Math.floor(Math.random() * 3),
+      Math.floor(Math.random() * 2)
+    ];
+  }
+  playerRadarChart.update();
+}, 10000);
+
+// Share button functionality
+document.getElementById('shareBtn').addEventListener('click', () => {
+  const shareText = 'Check out this cool sports dashboard!';
+  if (navigator.share) {
+    navigator.share({
+      title: 'Chicago Bulls Sports Dashboard',
+      text: shareText,
+      url: window.location.href
+    }).catch(console.error);
+  } else {
+    alert('Share feature not supported on this browser.');
+  }
+});
