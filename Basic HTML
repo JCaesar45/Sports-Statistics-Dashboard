@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chicago Bulls Sports Dashboard</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* CSS styles go here (see below) */
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Chicago Bulls Sports Dashboard</h1>
+  </header>
+  
+  <nav>
+    <!-- Future navigation or filters -->
+  </nav>
+  
+  <!-- Player Comparison -->
+  <section class="player-selector" aria-label="Player Selection">
+    <h2>Compare Players</h2>
+    <label for="player1">Player 1:</label>
+    <select id="player1" aria-label="Select Player 1">
+      <option value="25">Player A</option>
+      <option value="20">Player B</option>
+      <option value="15">Player C</option>
+      <option value="22">Player D</option>
+    </select>
+
+    <label for="player2">Player 2:</label>
+    <select id="player2" aria-label="Select Player 2">
+      <option value="25">Player A</option>
+      <option value="20">Player B</option>
+      <option value="15">Player C</option>
+      <option value="22">Player D</option>
+    </select>
+  </section>
+  
+  <!-- Performance Bar Chart -->
+  <section class="stats-overview" aria-label="Player Performance Comparison">
+    <h2>Player Performance Comparison</h2>
+    <canvas id="performanceChart" aria-label="Performance Chart" role="img"></canvas>
+  </section>
+  
+  <!-- Radar Chart for Player Stats -->
+  <section class="radar-chart" aria-label="Player Radar Chart">
+    <h2>Player Stats Radar Chart</h2>
+    <canvas id="playerRadar" aria-label="Radar Chart" role="img"></canvas>
+  </section>
+  
+  <!-- Additional Features -->
+  <section class="additional-features">
+    <!-- Share Button -->
+    <button id="shareBtn" aria-label="Share Dashboard">Share</button>
+    <!-- Leaderboard -->
+    <section class="leaderboard" aria-label="Top Players">
+      <h2>Top Players</h2>
+      <ol id="leaderboardList"></ol>
+    </section>
+  </section>
+  
+  <footer>
+    <p>&copy; 2024 Your Name</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // JavaScript code (see below)
+  </script>
+</body>
+</html>
